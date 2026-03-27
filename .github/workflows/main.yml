@@ -1,28 +1,12 @@
-name: Generate RSS Feed
+name: Generate Podcast Feeds
 
-on:
-  push:
-    paths:
-      - 'feed.yaml'
-      - 'feed.py'
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+on: [push]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - run: pip install pyyaml
-      - run: python feed.py
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: .
-      - uses: actions/deploy-pages@v4
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+      - name: Run Feed Generator
+        uses: planetoftheweb/podcast-generator@main
